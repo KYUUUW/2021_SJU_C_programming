@@ -352,8 +352,6 @@ void ABC(int* s, int k) {
 }
 
 
-
-
 void question15() {
 	int arr[10], i;
 	int* p;
@@ -370,8 +368,4 @@ void question15() {
 	for (p = arr; p < arr + 10; p++) {
 		printf(" %d", *p);
 	}
-}
-
-void main() {
-	question15();
 }
