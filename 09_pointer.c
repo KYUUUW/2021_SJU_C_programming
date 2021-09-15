@@ -15,7 +15,7 @@ void question01() {
 	py = tmp;
 
 	printf("%d %d %d", *px, *py, *pz);
-}
+} 
 
 void question02() {
 	int i;
