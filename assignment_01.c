@@ -1,5 +1,8 @@
 #include<stdio.h>
 #include<math.h>
+#include <stdlib.h>
+#include <time.h>
+#include <Windows.h>
 #pragma warning(disable: 4996)
 
 int* MAX(int* ar);
@@ -127,10 +130,10 @@ void question02_01() {
 	}
 }
 
-void rebooking(int *ar) { // 중복 제거 함수
-	int* p, *q; // 순회용 포인터
+void rebooking(int ar[]) { // 중복 제거 함수
+	int* p = NULL, * q = NULL; // 순회용 포인터
 	int isExist; // 중복여부 마커
-	int availableSeat;
+	int availableSeat; // 잔여 좌석
 
 	for (p = ar; *p != 0; p++) { // 예약 내역 전체 순회
 		isExist = 0; // 중복 마커 초기화
@@ -147,9 +150,9 @@ void rebooking(int *ar) { // 중복 제거 함수
 	}
 }
 
-int changeseat(int* ar) {
+int changeseat(int ar[]) {
 	int i; // 좌석번호 순회에 쓰일 변수
-	int* p; // 예약조회에 쓰일 포인터
+	int* p = NULL; // 예약조회에 쓰일 포인터
 	int isExist; // 예약여부
 
 	for (i = 1; i <= 21; i++) { // 가장 작은 수를 찾기위해 작은수부터 탐색한다.
@@ -166,29 +169,172 @@ int changeseat(int* ar) {
 	}
 }
 
-void main() {
-	int N; 
-	int ar[21] = { 0 }, * p, * q;
-	int metric;
-	int i, n_dup, dup_exist = 0;
+void question_02_02() {
+	int N; // 예약자 수
+	int ar[22] = { 0 }, *p = NULL, * q = NULL; // 예약자 수만큼 예약된 좌석번호를 저장할 배열
+	int i, n_dup, dup_exist = 0; // 중복여부를 체크하기 위한 변수
 
 	scanf("%d", &N); // 승객 수 입력받기
 
 	for (p = ar; p < ar + N; p++) { // 좌석번호 입력받기
-		scanf("%d", p);
+		scanf("%d", p); // 좌석번호 입력받기
 	}
 
 	if (passengerN(N) == -1) { // 예약 좌석이 부족한 경우
-		printf("-1\n");
+		printf("-1\n"); // -1 출력
 		return; // 프로그램 종료
 	}
-	else {
-		printf("0\n");
+	else { // 예약 좌석이 부족하지 않은 경우
+		printf("0\n"); // 예약 좌석이 부족하지 않은 경우 0 출력
+	}
+
+	rebooking(ar); // 중복 제거 함수 호출
+
+	for (p = ar; p < ar + N; p++) { // 모든 좌석을 순회한다.
+		printf("%d ", *p); // 좌석번호 출력
+	}
+}
+
+int test_rebooking(int N) {
+	// generate number
+	int ar[22] = { 0 };
+	int origin[22];
+	int i, j, k, tmp;
+
+	for (i = 0; i < N; i++) {
+		srand(GetTickCount() + i + N);
+		ar[i] = (rand() % 21) + 1;
+	}
+
+	for (k = 0; k < 22; k++) {
+		origin[k] = ar[k];
 	}
 
 	rebooking(ar);
 
-	for (p = ar; p < ar + N; p++) { // 모든 좌석을 순회한다.
+	// 중복확인
+	for (i = 0; i < N; i++) {
+		for (j = 0; j < N; j++) {
+			if (i == j) {
+				continue;
+			}
+			if (ar[i] == ar[j]) {
+				for (k = 0; k < 22; k++) {
+					printf("%d ", origin[k]);
+				}
+				return 1;
+			}
+		}
+	}
+
+	return 0;
+}
+
+void main() {
+	int toBeContinue;
+	int wheel = 0;
+	while (1) {
+		srand((GetTickCount() + wheel));
+		toBeContinue = test_rebooking(rand() % 17 + 5);
+		if (toBeContinue == 1) {
+			return;
+		}
+		wheel++;
+	}
+}
+
+void question03() {
+	char str[101], *p;
+	int len = 0;
+	int maxLen = 0;
+
+	scanf("%[^#]s", str);
+
+	for (p = str; *p != '\0'; p++) {
+		if (*p >= 'a' && *p <= 'z') {
+			len++;
+			printf("%c", *p);
+		}
+		else {
+			if (maxLen < len) {
+				maxLen = len;
+			}
+			len = 0;
+			printf("\n");
+		}
+	}
+	if (maxLen < len) {
+		maxLen = len;
+	}
+	printf("\n");
+	printf("\n%d", maxLen);
+}
+
+void question04() {
+	int x[10], y[10], *p, *q;
+	int n = 0, m = 0;
+	int tmp, *max, *min;
+
+	p = x;
+	while (1) {
+		scanf("%d", &tmp);
+		if (tmp == 0) {
+			break;
+		}
+		*p = tmp;
+		n++;
+		p++;
+	}
+	
+	p = y;
+	while (1) {
+		scanf("%d", &tmp);
+		if (tmp == 0) {
+			break;
+		}
+		*p = tmp;
+		m++;
+		p++;
+	}
+
+	for (p = x; p < x + n; p++) { // x 을 내림차순으로 만든다.
+		max = p;
+		for (q = p + 1; q < x + n; q++) {
+			if (*max < *q) {
+				max = q;
+			}
+		}
+		for (q = y; q < y + m; q++) {
+			if (*max < *q) {
+				max = q;
+			}
+		}
+		if (max != p) {
+			tmp = *p;
+			*p = *max;
+			*max = tmp;
+		}
+	}
+
+	for (p = y; p < y + m; p++) { // y 를 오름차순으로 만든다.
+		min = p;
+		for (q = p + 1; q < y + m; q++) {
+			if (*min > *q) {
+				min = q;
+			}
+		}
+		if (min != p) {
+			tmp = *p;
+			*p = *min;
+			*min = tmp;
+		}
+	}
+
+	for (p = x; p < x + n; p++) {
+		printf("%d ", *p);
+	}
+	printf("\n");
+	for (p = y; p < y + m; p++) {
 		printf("%d ", *p);
 	}
 }
