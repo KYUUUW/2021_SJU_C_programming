@@ -2,12 +2,12 @@
 #include<math.h>
 #include <stdlib.h>
 #include <time.h>
-#include <Windows.h>
 #pragma warning(disable: 4996)
+
+long wheel2 = 0;
 
 int* MAX(int* ar);
 int* MIN(int* ar);
-
 
 void question01_01() {
 	int N;
@@ -202,7 +202,8 @@ int test_rebooking(int N) {
 	int i, j, k, tmp;
 
 	for (i = 0; i < N; i++) {
-		srand(GetTickCount() + i + N);
+		srand(time(NULL) + i + N + wheel2);
+		wheel2++;
 		ar[i] = (rand() % 21) + 1;
 	}
 
@@ -234,7 +235,7 @@ void main() {
 	int toBeContinue;
 	int wheel = 0;
 	while (1) {
-		srand((GetTickCount() + wheel));
+		srand((GetTickCount() + wheel + wheel2));
 		toBeContinue = test_rebooking(rand() % 17 + 5);
 		if (toBeContinue == 1) {
 			return;
