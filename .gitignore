@@ -1,2 +1,7 @@
 Debug/**/*
 *.vcxproj*
+**/*/*.obj
+**/*/*.pdb
+**/*/*.ipdb
+**/*/*.log
+**/*/*.tlog
