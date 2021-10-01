@@ -181,7 +181,7 @@ void question_02_02() {
 	}
 
 	if (passengerN(N) == -1) { // 예약 좌석이 부족한 경우
-		printf("-1\n"); // -1 출력
+		printf("-1"); // -1 출력black
 		return; // 프로그램 종료
 	}
 	else { // 예약 좌석이 부족하지 않은 경우
@@ -232,6 +232,7 @@ int test_rebooking(int N) {
 }
 
 void main() {
+	/*
 	int toBeContinue;
 	int wheel = 0;
 	while (1) {
@@ -242,6 +243,8 @@ void main() {
 		}
 		wheel++;
 	}
+	*/
+	question_02_02();
 }
 
 void question03() {

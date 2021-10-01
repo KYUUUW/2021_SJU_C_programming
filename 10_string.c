@@ -290,7 +290,7 @@ void question11() {
 	printf("%d %d", len1, isInclude);
 }
 
-void main() {
+void question10() {
 	char str1[101] = { '\0' };
 	char str2[101] = { '\0' };
 	int len1;
